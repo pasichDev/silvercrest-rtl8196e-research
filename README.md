@@ -1,0 +1,1 @@
+# pasichDev-silvercrest-rtl8196e-research
