@@ -6,7 +6,7 @@
 - [x] Prior researchers and upstream code credited
 - [x] Original work licensed; kernel-derived files left with their upstream licenses
 - [x] Single-board test limits and negative findings documented
-- [x] Researcher received a vendor response stating that the issue was fixed
+- [x] Researcher received a vendor response stating the issue had already been fixed for some time (exact date unknown)
 - [ ] Record vendor report ID, response date, affected firmware versions and corrected build
 - [ ] Independently verify remediation on the corrected firmware if hardware/update access permits
 - [ ] Review exact root-access reproduction material separately if disclosure permits
