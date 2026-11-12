@@ -16,4 +16,8 @@ I combined the local response with the previously documented password relationsh
 
 The significant finding was **LAN disclosure of credential-related material leading to administrative access**. It is not a break of the SSH protocol. A single affected firmware build does not establish the status of every SilverCrest gateway or a current fixed version.
 
-The exact request frames, raw replies and automation remain in a private lab record pending verification of coordinated disclosure and the vendor's fixed release. Neither passwords nor device identifiers are included here. A later, independently reviewed release can add sanitized, owner-only reproduction material after that check.
+## Vendor response
+
+Tuya subsequently replied that the issue had been **fixed**, according to my correspondence. This updates the disclosure status, but I have not yet documented the exact corrected firmware build or independently retested it. A fix reported by the vendor does not establish that every previously shipped gateway is patched.
+
+The exact request frames, raw replies and automation remain in my private lab record. Neither passwords nor device identifiers are included here. I intend to publish a separate, sanitized reproduction note once the affected and corrected firmware versions and disclosure dates are recorded.
