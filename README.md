@@ -42,7 +42,7 @@ In the separate [WireGuard project](https://github.com/pasichDev/rtl8196e-wiregu
 
 ## Boundaries
 
-No root passwords, provisioning keys, raw device responses, SSH identity files, full flash dumps, private C/Go home-security code, local network captures or prebuilt firmware images are published. Tuya has replied to the researcher that the issue was fixed. The exact fixed firmware version and an independent retest have not yet been documented here; reproduction frames and automated root tooling remain private for this initial release. [Security and disclosure details](SECURITY.md).
+No root passwords, provisioning keys, raw device responses, SSH identity files, full flash dumps, private C/Go home-security code, local network captures or prebuilt firmware images are published. Tuya replied that the issue had already been fixed for some time; I do not claim my report led to the fix. The exact fixed firmware version and an independent retest have not yet been documented here; reproduction frames and automated root tooling remain private for this initial release. [Security and disclosure details](SECURITY.md).
 
 The initial access is **not claimed as a new password discovery**. The relationship between provisioning data and the root password was described by [Paul Banks](https://paulbanks.org/projects/lidl-zigbee/). The Linux port/toolchain foundation is [jnilo1/rtl8196e-gateway](https://github.com/jnilo1/rtl8196e-gateway); Tuya documents its [production-test interface](https://developer.tuya.com/en/docs/iot/tuya-gateway-extension-sdk-production-test-description?id=K9dudr9liqkgc). My own work here is the tested combination, kernel-only upgrade, compatibility experiments and linked kernel optimizations.
 
