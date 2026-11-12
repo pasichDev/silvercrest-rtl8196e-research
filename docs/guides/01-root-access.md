@@ -30,17 +30,17 @@ The manufacturing/test protocol distinguishes firmware version and configuration
 
 | Request | Purpose | Result on my board |
 | --- | --- | --- |
-| \`0x01\` | Version read | Reported firmware 1.2.12 |
-| \`0x02\` | Child firmware version | Returned a negative result |
-| \`0x04\` | Configuration read | Returned JSON with device-specific provisioning data |
+| `0x01` | Version read | Reported firmware 1.2.12 |
+| `0x02` | Child firmware version | Returned a negative result |
+| `0x04` | Configuration read | Returned JSON with device-specific provisioning data |
 
-I sent **read-only** operations. No factory-write request, firmware update or cloud endpoint was involved. The configuration included a field named \`auzkey\`; the unredacted response must be handled as a secret.
+I sent **read-only** operations. No factory-write request, firmware update or cloud endpoint was involved. The configuration included a field named `auzkey`; the unredacted response must be handled as a secret.
 
 The response structure can be inspected using the [documented vendor protocol](https://developer.tuya.com/en/docs/iot/tuya-gateway-extension-sdk-production-test-description?id=K9dudr9liqkgc). I am not publishing a scanner or an automated credential extractor. Do not paste provisioning responses, UUIDs or derived passwords into an issue, log or Git repository.
 
 ### Combining the results
 
-On the tested stock firmware, the **last eight characters of the device-specific \`auzkey\`** matched the root-password relationship described in the earlier research. I tried the credential once against the existing SSH service and authenticated successfully. That is a device-specific password, **not** a reusable default password.
+On the tested stock firmware, the **last eight characters of the device-specific `auzkey`** matched the root-password relationship described in the earlier research. I tried the credential once against the existing SSH service and authenticated successfully. That is a device-specific password, **not** a reusable default password.
 
 With credentials from your authorized device, confirm the session using read-only commands:
 
@@ -49,7 +49,7 @@ ssh -p 2333 "root@$GATEWAY_IP" 'cat /proc/self/status | grep Uid'
 ssh -p 2333 "root@$GATEWAY_IP" 'cat /proc/version; cat /proc/mtd'
 ~~~
 
-The status on my gateway reported \`Uid: 0 0 0 0\`. Its BusyBox build lacked standalone \`id\` and \`uname\`, so the \`/proc\` interface was the direct evidence. Verify the SSH host key by a trusted method rather than disabling host-key checking.
+The status on my gateway reported `Uid: 0 0 0 0`. Its BusyBox build lacked standalone `id` and `uname`, so the `/proc` interface was the direct evidence. Verify the SSH host key by a trusted method rather than disabling host-key checking.
 
 ## What this finding does and does not show
 
