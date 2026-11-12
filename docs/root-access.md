@@ -18,6 +18,6 @@ The significant finding was **LAN disclosure of credential-related material lead
 
 ## Vendor response
 
-Tuya subsequently replied that the issue had been **fixed**, according to my correspondence. This updates the disclosure status, but I have not yet documented the exact corrected firmware build or independently retested it. A fix reported by the vendor does not establish that every previously shipped gateway is patched.
+Tuya replied that the issue had **already been fixed for some time** when they answered, according to my correspondence. I do not claim my report triggered the remediation. This updates the disclosure status, but I have not yet documented the exact corrected firmware build or independently retested it. A fix reported by the vendor does not establish that every previously shipped gateway is patched.
 
 The exact request frames, raw replies and automation remain in my private lab record. Neither passwords nor device identifiers are included here. I intend to publish a separate, sanitized reproduction note once the affected and corrected firmware versions and disclosure dates are recorded.
