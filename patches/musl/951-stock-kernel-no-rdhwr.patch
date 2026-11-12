@@ -1,0 +1,35 @@
+--- a/arch/mips/pthread_arch.h
++++ b/arch/mips/pthread_arch.h
+@@ -1,6 +1,15 @@
++#if defined(__mlx4380)
++/* Stock RTL8196E: rdhwr SIGILL on thread-pointer access.
++ * Single-threaded programs only. */
++extern uintptr_t __lexra_tp;
++#endif
++
+ static inline uintptr_t __get_tp()
+ {
+-#if defined(__mlx5380)
++#if defined(__mlx4380)
++	return __lexra_tp;
++#elif defined(__mlx5380)
+ 	register uintptr_t tp;
+ 	__asm__ ("mflxc0 %0, $8" : "=r" (tp) );
+ 	return tp;
+--- a/src/thread/__set_thread_area.c
++++ b/src/thread/__set_thread_area.c
+@@ -1,7 +1,14 @@
+ #include "pthread_impl.h"
+ 
++#if defined(__mlx4380)
++uintptr_t __lexra_tp;
++#endif
++
+ int __set_thread_area(void *p)
+ {
++#if defined(__mlx4380)
++	__lexra_tp = (uintptr_t)p;
++#endif
+ #ifdef SYS_set_thread_area
+ 	return __syscall(SYS_set_thread_area, p);
+ #else
