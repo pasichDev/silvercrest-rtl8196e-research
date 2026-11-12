@@ -1,0 +1,17 @@
+name: Verify shell helpers
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  shell-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check POSIX shell syntax
+        run: |
+          for f in scripts/*.sh examples/*.sh; do
+            sh -n "$f"
+          done

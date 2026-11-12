@@ -24,3 +24,6 @@ hello-mips
 __pycache__/
 *.pyc
 .DS_Store
+
+# Device-specific local startup config: never commit
+kernel-start.local.sh

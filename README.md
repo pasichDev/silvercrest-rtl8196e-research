@@ -26,8 +26,9 @@ This is my engineering notebook, trimmed for public release. It is **not** a com
 
 | Subject | Notes |
 | --- | --- |
-| Root access without opening the case | [The two research paths and what I actually verified](docs/root-access.md) |
-| Kernel-only upgrade | [Building, installing and booting Linux over SSH](docs/uartless-kernel.md) |
+| **Manual 1: root access** | [Tuya production-test exposure + previously documented password relationship](docs/guides/01-root-access.md) |
+| **Manual 2: build and flash** | [Build Linux 6.18 and install the kernel through SSH without UART](docs/guides/02-kernel-build-and-flash.md) |
+| Original experiment records | [Root research notes](docs/root-access.md) and [kernel boot log](docs/uartless-kernel.md) |
 | Native programs | [MIPS toolchain, libc and instruction compatibility](docs/mips-userspace.md) |
 | Patches | [What helped, what made things worse](docs/patches.md) |
 | Flash and baseline | [Hardware notes](docs/hardware.md) |
