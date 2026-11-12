@@ -32,6 +32,7 @@ git clone https://github.com/jnilo1/rtl8196e-gateway.git rtl8196e-port
 git -C rtl8196e-port checkout --detach 30eb5e5b9ee334d2c6d76812acd4a6cdf2923423
 
 git clone https://github.com/pasichDev/rtl8196e-wireguard.git
+git clone https://github.com/pasichDev/silvercrest-rtl8196e-research.git
 
 LABGW_CRYPTO_O2=1 LABGW_CRYPTO_TUNE=1 LABGW_WG_NAPI=1 \
   ./rtl8196e-wireguard/build-wireguard-kernel.sh "$PWD/rtl8196e-port" clean
@@ -95,7 +96,32 @@ This is **mandatory** for the stock-rootfs hybrid tested here. The original Tuya
 
 Use the supplied [network bootstrap template](../../examples/kernel-start.template.sh) as a reference. Its MAC, IPv4, netmask, gateway and DNS are intentionally placeholders. Make a local copy, fill the actual settings and **do not commit that populated copy**. The script must keep Dropbear alive and prevent the old vendor boot sequence from reconfiguring obsolete interfaces.
 
-Stage the edited script as `/tuya/rtl8196e-kernel/kernel-start.sh` and make it executable. Run `sh -n` and inspect it for correct network parameters. Review [prepare-kernel-start.sh](../../scripts/prepare-kernel-start.sh) before using it to preserve the stock `/tuya/tuya_net_start.sh` and install a version-dependent wrapper.
+~~~sh
+cp silvercrest-rtl8196e-research/examples/kernel-start.template.sh kernel-start.local.sh
+# Edit kernel-start.local.sh: use your OWN MAC/IP/netmask/router/DNS.
+sh -n kernel-start.local.sh
+if grep -q 'REPLACE_' kernel-start.local.sh; then
+  echo "Unfilled network settings. STOP."
+  exit 1
+fi
+~~~
+
+After reviewing the adapted startup and recovery method, stage it and the version-sensitive wrapper:
+
+~~~sh
+ssh -p "$SSH_PORT" "root@$DEVICE_IP" \
+  'mkdir -p /tuya/rtl8196e-kernel; cat > /tuya/rtl8196e-kernel/kernel-start.sh; chmod 700 /tuya/rtl8196e-kernel/kernel-start.sh' \
+  < kernel-start.local.sh
+
+ssh -p "$SSH_PORT" "root@$DEVICE_IP" \
+  'cat > /var/rtl8196e-prepare-kernel-start.sh' \
+  < silvercrest-rtl8196e-research/scripts/prepare-kernel-start.sh
+
+ssh -p "$SSH_PORT" "root@$DEVICE_IP" \
+  'sh -n /tuya/rtl8196e-kernel/kernel-start.sh; sh /var/rtl8196e-prepare-kernel-start.sh'
+~~~
+
+The wrapper backs up the original `/tuya/tuya_net_start.sh` as `/tuya/rtl8196e-kernel/stock-net-start.sh`; it keeps stock behavior under the old kernel. **This step writes a startup script to flash, even though the later `--check` kernel command is read-only.** Review its effects before running.
 
 **If you cannot verify that your SSH path will return on the new kernel, stop.** A kernel can boot successfully and still leave the device unreachable.
 
@@ -110,7 +136,7 @@ ssh -p "$SSH_PORT" "root@$DEVICE_IP" \
   'cat > /var/rtl8196e-kernel.img' < "$IMAGE"
 
 ssh -p "$SSH_PORT" "root@$DEVICE_IP" \
-  'cat > /var/rtl8196e-install-kernel.sh' < scripts/install-kernel.sh
+  'cat > /var/rtl8196e-install-kernel.sh' < silvercrest-rtl8196e-research/scripts/install-kernel.sh
 
 NEW_MD5="$(md5sum "$IMAGE" | awk '{print $1}')"
 OLD_MD5="$(ssh -p "$SSH_PORT" "root@$DEVICE_IP" 'md5sum /dev/mtd1' | awk '{print $1}')"
